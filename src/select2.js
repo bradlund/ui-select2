@@ -91,7 +91,7 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
             controller.$render()
           }, true)
           controller.$render = function () {
-            // Delayed so that the options have time to be rendered
+            // Delayed so that the options have time to be rendered -
             $timeout(function() {
               if (isSelect) {
                 elm.select2('val', controller.$viewValue);
