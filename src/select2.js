@@ -91,22 +91,25 @@ angular.module('ui.select2', []).value('uiSelect2Config', {}).directive('uiSelec
             controller.$render()
           }, true)
           controller.$render = function () {
-            if (isSelect) {
-              elm.select2('val', controller.$viewValue);
-            } else {
-              if (opts.multiple) {
-                elm.select2(
-                  'data', convertToSelect2Model(controller.$viewValue));
+            // Delayed so that the options have time to be rendered
+            $timeout(function() {
+              if (isSelect) {
+                elm.select2('val', controller.$viewValue);
               } else {
-                if (angular.isObject(controller.$viewValue)) {
-                  elm.select2('data', controller.$viewValue);
-                } else if (!controller.$viewValue) {
-                  elm.select2('data', null);
+                if (opts.multiple) {
+                  elm.select2(
+                    'data', convertToSelect2Model(controller.$viewValue));
                 } else {
-                  elm.select2('val', controller.$viewValue);
+                  if (angular.isObject(controller.$viewValue)) {
+                    elm.select2('data', controller.$viewValue);
+                  } else if (!controller.$viewValue) {
+                    elm.select2('data', null);
+                  } else {
+                    elm.select2('val', controller.$viewValue);
+                  }
                 }
               }
-            }
+			});
           };
 
           // Watch the options dataset for changes
